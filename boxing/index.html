@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Southpaw Social Boxing — demo website by Lais Shamukh Web Design.">
+<meta property="og:title" content="Southpaw Social Boxing — demo website">
+<meta property="og:description" content="Demo website by Lais Shamukh Web Design, Melbourne.">
+<meta property="og:image" content="https://lais-sh.github.io/Websites-for-Melbourne-small-businesses/assets/og-boxing.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<title>Southpaw Social Boxing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: vintage fight poster — headline beside a red-toned photo, live round timer, photo marquee, programme cards, day-tab timetable with spots left, membership toggle, 3-step free-trial form. Single committed look. */
+:root{
+  --paper:#efe7d8; --paper-2:#e5dbc8; --ink:#141210; --muted:#5b534a; --red:#c4271c; --red-ink:#fff6ee; --line:#cdbfa8; --good:#2f7a43;
+  --display:"Anton", Impact, "Arial Narrow", sans-serif;
+  --body:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body);overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:100%}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:20px}
+.demo{background:var(--ink);color:#cfc6b7;font-size:13px;text-align:center;padding:6px 16px}
+.ph{position:relative;overflow:hidden;background:linear-gradient(135deg,#3a1512,#141210)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph.noimg img{visibility:hidden}
+.ph.noimg::after{content:attr(data-cap);position:absolute;inset:0;display:grid;place-items:center;color:#cfc6b7;font-size:13px;text-align:center;padding:10px;text-transform:uppercase;letter-spacing:.1em}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--paper);border-bottom:3px solid var(--ink)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:12px}
+.logo{font-family:var(--display);font-size:26px;letter-spacing:.03em;text-transform:uppercase;text-decoration:none}
+.logo span{color:var(--red)}
+.links{display:flex;gap:24px;list-style:none;margin:0;padding:0;font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:.06em}
+.links a{text-decoration:none}
+.links a:hover{color:var(--red)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--red);color:var(--red-ink);font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-size:20px;padding:12px 24px;border:0;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
+.btn:hover{background:#a81f16;transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+.btn.outline{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 3px var(--ink)}
+.btn.outline:hover{box-shadow:inset 0 0 0 3px var(--ink),4px 4px 0 var(--ink)}
+.btn.ink{background:var(--ink);color:var(--paper)}
+.burger{display:none;width:44px;height:44px;border:0;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:10px;right:10px;height:3px;background:var(--ink);transition:transform .25s,opacity .25s}
+.burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:28px}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* hero */
+.hero{border-bottom:3px solid var(--ink)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:36px;align-items:center;padding-block:40px}
+.bill{display:flex;gap:14px;align-items:center;font-weight:800;text-transform:uppercase;letter-spacing:.2em;font-size:13px}
+.bill::after{content:"";height:2px;flex:1;max-width:80px;background:var(--ink)}
+.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:.86;font-size:clamp(64px,11vw,150px);margin:14px 0 12px}
+.hero h1 .r{color:var(--red);display:inline-block}
+.hero h1 .w{display:inline-block;animation:punch .7s cubic-bezier(.2,1.6,.4,1) both}
+.hero h1 .w:nth-child(2){animation-delay:.12s}.hero h1 .w:nth-child(4){animation-delay:.28s}
+@keyframes punch{from{opacity:0;transform:translateX(-40px) scale(1.1)}}
+.hero p{max-width:46ch;margin:0 0 24px;color:var(--muted);font-size:18px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-img{position:relative;aspect-ratio:4/5;max-width:100%;border:3px solid var(--ink);box-shadow:12px 12px 0 var(--red)}
+.hero-img .ph{position:absolute;inset:0;background:var(--red)}
+.hero-img img{filter:grayscale(1) contrast(1.15);mix-blend-mode:multiply}
+.stamp{position:absolute;left:-26px;bottom:28px;background:var(--paper);border:3px solid var(--ink);padding:10px 14px;transform:rotate(-6deg);font-family:var(--display);text-transform:uppercase;font-size:20px;line-height:1.05;text-align:center}
+.stamp b{display:block;font-size:34px;color:var(--red);font-weight:400}
+
+/* timer */
+.timer-sec{background:var(--ink);color:var(--paper)}
+.timer-sec .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:center;padding-block:48px}
+.timer-sec h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(36px,5vw,56px);line-height:.95;margin:0 0 10px}
+.timer-sec p{color:#bdb3a2;margin:0 0 18px;max-width:48ch}
+.tset{display:flex;gap:8px;flex-wrap:wrap}
+.tset button{background:transparent;border:2px solid #4a433b;color:var(--paper);padding:6px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.tset button[aria-pressed="true"]{border-color:var(--red);background:var(--red)}
+.clock{position:relative;width:240px;height:240px;max-width:70vw;max-height:70vw;margin:0 auto}
+.clock svg{width:100%;height:100%;transform:rotate(-90deg)}
+.clock .t{position:absolute;inset:0;display:grid;place-items:center;text-align:center;align-content:center}
+.clock .t b{font-family:var(--display);font-weight:400;font-size:64px;line-height:1;font-variant-numeric:tabular-nums}
+.clock .t span{font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#bdb3a2}
+.clock.work .t span{color:#ff8a7f}.clock.rest .t span{color:#8fd19e}
+.tbtns{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.tbtns .btn{font-size:18px;padding:10px 20px}
+.tbtns .btn.outline{color:var(--paper);box-shadow:inset 0 0 0 3px var(--paper)}
+
+/* marquee */
+.marq{overflow:hidden;border-bottom:3px solid var(--ink);background:var(--paper-2)}
+.marq-in{display:flex;gap:12px;width:max-content;padding-block:12px;animation:slide 40s linear infinite}
+.marq:hover .marq-in{animation-play-state:paused}
+.marq .ph{width:260px;height:180px;flex:none}
+.marq img{filter:grayscale(.3) contrast(1.05);transition:filter .3s}
+.marq .ph:hover img{filter:none}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+section{padding-block:68px}
+h2.sec{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(42px,6vw,68px);line-height:.95;margin:0 0 10px}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 28px}
+
+/* programmes */
+.progs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.prog{border:3px solid var(--ink);background:#f6f0e4;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.prog:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}
+.prog .ph{aspect-ratio:1/1;border-bottom:3px solid var(--ink)}
+.prog img{filter:grayscale(1) contrast(1.1);transition:filter .4s,transform .5s}
+.prog:hover img{filter:none;transform:scale(1.05)}
+.prog-b{padding:16px;display:grid;gap:6px;flex:1;align-content:start}
+.prog h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:26px;margin:0;line-height:1}
+.prog p{margin:0;color:var(--muted);font-size:15px}
+.lvl{display:flex;gap:4px;align-items:center;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.lvl i{width:16px;height:6px;background:var(--line)}
+.lvl i.on{background:var(--red)}
+
+/* timetable */
+.daytabs{display:grid;grid-template-columns:repeat(7,1fr);border:3px solid var(--ink);margin-bottom:16px}
+.daytabs button{background:transparent;border:0;border-right:1px solid var(--line);padding:10px 4px;cursor:pointer;font-family:var(--display);text-transform:uppercase;font-size:18px;color:var(--ink)}
+.daytabs button:last-child{border-right:0}
+.daytabs button small{display:block;font-family:var(--body);font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--red);min-height:14px}
+.daytabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{background:transparent;border:2px solid var(--ink);padding:5px 12px;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.classes{display:grid;gap:10px}
+.cls{display:grid;grid-template-columns:90px minmax(0,1fr) 170px auto;gap:16px;align-items:center;background:#f6f0e4;border:2px solid var(--ink);border-left-width:8px;padding:12px 16px;animation:rowIn .35s both}
+@keyframes rowIn{from{opacity:0;transform:translateX(-12px)}}
+.cls.fund{border-left-color:#3a6ea5}.cls.hiit{border-left-color:var(--red)}.cls.spar{border-left-color:#141210}.cls.women{border-left-color:#8a4fa0}.cls.youth{border-left-color:#3b8a4a}
+.cls .tm{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.cls b{display:block}
+.cls small{color:var(--muted)}
+.spots small{display:block;font-weight:700;color:var(--ink);font-size:13px}
+.meter{height:6px;background:var(--line);margin-top:4px}
+.meter i{display:block;height:100%;background:var(--good);transition:width .6s}
+.meter i.low{background:var(--red)}
+.cls .btn{font-size:16px;padding:8px 14px}
+.cls .btn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed;transform:none;box-shadow:none}
+.none{padding:24px;border:2px dashed var(--line);text-align:center;color:var(--muted)}
+
+/* plans */
+.toggle{display:inline-flex;border:3px solid var(--ink);margin-bottom:24px}
+.toggle button{background:transparent;border:0;padding:8px 18px;font-weight:800;cursor:pointer;color:var(--ink)}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.toggle em{font-style:normal;color:var(--red);font-size:12px;margin-left:4px}
+.toggle button[aria-pressed="true"] em{color:#ff9d94}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+.plan{border:3px solid var(--ink);padding:24px;display:grid;gap:10px;align-content:start;background:#f6f0e4}
+.plan.best{background:var(--ink);color:var(--paper);transform:translateY(-8px)}
+.plan.best .muted{color:#bdb3a2}
+.plan h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:28px;margin:0}
+.price{font-family:var(--display);font-size:56px;line-height:1;font-variant-numeric:tabular-nums}
+.price small{font-family:var(--body);font-size:15px;font-weight:700}
+.price.flip{animation:flip .4s}
+@keyframes flip{40%{transform:translateY(-8px);opacity:0}60%{transform:translateY(8px);opacity:0}}
+.plan ul{margin:0;padding-left:18px}
+.muted{color:var(--muted);font-size:14px}
+.badge{justify-self:start;background:var(--red);color:var(--red-ink);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px}
+
+/* coaches */
+.coaches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.coach{border-top:3px solid var(--ink);padding-top:14px}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--red);color:var(--red-ink);display:grid;place-items:center;font-family:var(--display);font-size:28px;margin-bottom:10px}
+.coach:nth-child(2) .avatar{background:var(--ink);color:var(--paper)}
+.coach:nth-child(3) .avatar{background:#3a6ea5}
+.coach h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:24px;margin:0}
+.coach p{margin:4px 0 0;color:var(--muted);font-size:15px}
+
+/* trial */
+.trial{background:var(--red);color:var(--red-ink);position:relative;overflow:hidden}
+.trial .bgph{position:absolute;inset:0;opacity:.18}
+.trial .bgph img{filter:grayscale(1)}
+.trial .wrap{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.trial h2{color:var(--red-ink)}
+.trial p{color:#ffe2d9}
+form{background:var(--paper);color:var(--ink);padding:24px;display:grid;gap:14px;border:3px solid var(--ink);box-shadow:10px 10px 0 var(--ink)}
+.prog-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.prog-bar i{height:6px;background:var(--line);transition:background .3s}
+.prog-bar i.on{background:var(--red)}
+.stepname{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.fs{display:grid;gap:10px;animation:rowIn .3s both}
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pick button{border:2px solid var(--ink);background:#fff;padding:12px;text-align:left;font-weight:700;cursor:pointer;color:var(--ink)}
+.pick button small{display:block;font-weight:500;color:var(--muted)}
+.pick button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pick button[aria-pressed="true"] small{color:#bdb3a2}
+label.f{font-size:14px;font-weight:700;display:grid;gap:5px}
+input{font:inherit;padding:10px 12px;border:2px solid var(--ink);background:#fff;color:var(--ink);width:100%;border-radius:0}
+.fnav{display:flex;justify-content:space-between;gap:10px}
+.err{color:var(--red);font-size:14px;min-height:1em;font-weight:700}
+.done{text-align:center;padding:10px 0}
+.done b{font-family:var(--display);font-weight:400;font-size:36px;text-transform:uppercase;display:block;color:var(--red)}
+
+.find{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.find h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:22px;margin:0 0 6px}
+.find p{margin:0;color:var(--muted)}
+footer{border-top:3px solid var(--ink);padding-block:26px;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.rv{transition:opacity .7s ease,transform .7s ease}
+.rv.pre{opacity:0;transform:translateY(26px)}
+
+@media (max-width:900px){
+  .hero .wrap,.timer-sec .wrap,.trial .wrap{grid-template-columns:1fr}
+  .progs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .plans,.coaches,.find{grid-template-columns:1fr}
+  .plan.best{transform:none}
+  .hero-img{max-width:440px}
+  .stamp{left:10px}
+  .burger{display:block}
+  .links{position:fixed;top:0;left:0;right:0;flex-direction:column;gap:0;background:var(--paper);padding:calc(72px + env(safe-area-inset-top,0px)) 20px 20px;border-bottom:3px solid var(--ink);transform:translateY(-105%);transition:transform .35s;z-index:-1}
+  .links.open{transform:none}
+  .links a{display:block;padding:14px 0;font-size:22px;border-bottom:1px solid var(--line)}
+  .nav>.btn{display:none}
+}
+@media (max-width:640px){
+  .cls{grid-template-columns:70px minmax(0,1fr);row-gap:8px}
+  .cls .spots{grid-column:1/-1}
+  .cls .btn{grid-column:1/-1}
+  .daytabs button{font-size:15px}
+  .pick{grid-template-columns:1fr}
+}
+@media (max-width:480px){.progs{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv.pre{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="demo"><a href="../" style="color:inherit;font-weight:600">← Lais Shamukh Web Design</a> · Demo website · Southpaw Social is a fictional business</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">Southpaw <span>Social</span></a>
+    <ul class="links" id="links">
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#timetable">Timetable</a></li>
+      <li><a href="#memberships">Memberships</a></li>
+      <li><a href="#coaches">Coaches</a></li>
+    </ul>
+    <a class="btn" href="#trial">Free class</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="links"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <div class="bill">South Melbourne · Est. 2021</div>
+        <h1><span class="w">Every</span> <span class="w">round</span><br><span class="w r">counts.</span></h1>
+        <p>Pad work, bag rounds and conditioning in small groups. No experience needed, no ego, and no lock-in contracts.</p>
+        <div class="ctas">
+          <a class="btn" href="#trial">Book a free class</a>
+          <a class="btn outline" href="#timetable">See timetable</a>
+        </div>
+      </div>
+      <div class="hero-img">
+        <div class="ph" data-cap="Sparring"><img src="https://images.unsplash.com/photo-1517438322307-e67111335449?auto=format&fit=crop&w=1000&q=75" alt="Two boxers sparring in a gym"></div>
+        <div class="stamp">First class<b>Free</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timer-sec" id="timer">
+    <div class="wrap">
+      <div>
+        <h2>Train at home between classes</h2>
+        <p>Use our round timer for shadow boxing or skipping. Pick a format and hit start. A bell sounds at the start and end of each round.</p>
+        <div class="tset" id="tset" role="group" aria-label="Timer format">
+          <button aria-pressed="true" data-w="180" data-r="60" data-n="3">3 × 3 min</button>
+          <button aria-pressed="false" data-w="120" data-r="60" data-n="5">5 × 2 min</button>
+          <button aria-pressed="false" data-w="60" data-r="30" data-n="6">6 × 1 min</button>
+        </div>
+      </div>
+      <div>
+        <div class="clock" id="clock">
+          <svg viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="108" fill="none" stroke="#2e2a25" stroke-width="12"/><circle id="arc" cx="120" cy="120" r="108" fill="none" stroke="#c4271c" stroke-width="12" stroke-linecap="butt" stroke-dasharray="678.6" stroke-dashoffset="0"/></svg>
+          <div class="t"><span id="phase">Ready</span><b id="time">3:00</b><span id="round">Round 1 of 3</span></div>
+        </div>
+        <div class="tbtns"><button class="btn" id="tStart">Start</button><button class="btn outline" id="tReset">Reset</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marq" aria-label="Gym photos">
+    <div class="marq-in" id="marq">
+      <div class="ph" data-cap="Bags"><img src="https://images.unsplash.com/photo-1716306886418-f84f6d4c2f3a?auto=format&fit=crop&w=520&q=70" alt="Row of punching bags" loading="lazy"></div>
+      <div class="ph" data-cap="Gloves"><img src="https://images.unsplash.com/photo-1561532325-7d5231a2dede?auto=format&fit=crop&w=520&q=70" alt="Red boxing gloves" loading="lazy"></div>
+      <div class="ph" data-cap="Ring"><img src="https://images.unsplash.com/photo-1716307046875-4c4ba2f43cab?auto=format&fit=crop&w=520&q=70" alt="Boxing ring with punching bag" loading="lazy"></div>
+      <div class="ph" data-cap="Training"><img src="https://images.unsplash.com/photo-1636581563867-1ecab574858f?auto=format&fit=crop&w=520&q=70" alt="Boxer training in the gym" loading="lazy"></div>
+      <div class="ph" data-cap="Gym"><img src="https://images.unsplash.com/photo-1754630591156-ef00f2e0d888?auto=format&fit=crop&w=520&q=70" alt="Boxing gym with hanging bags" loading="lazy"></div>
+      <div class="ph" data-cap="Hooks"><img src="https://images.unsplash.com/photo-1633394782368-6e7260566004?auto=format&fit=crop&w=520&q=70" alt="Boxing gloves hanging from a hook" loading="lazy"></div>
+      <div class="ph" data-cap="Ropes"><img src="https://images.unsplash.com/photo-1526792903869-f3035bfc7f29?auto=format&fit=crop&w=520&q=70" alt="Boxer leaning on the ring post" loading="lazy"></div>
+    </div>
+  </div>
+
+  <section id="programs">
+    <div class="wrap">
+      <h2 class="sec rv">Programs</h2>
+      <p class="lead rv">Four ways to train. Every class is 45 minutes and capped at 14 people.</p>
+      <div class="progs">
+        <article class="prog rv"><div class="ph" data-cap="Fundamentals"><img src="https://images.unsplash.com/photo-1636581563867-1ecab574858f?auto=format&fit=crop&w=600&q=70" alt="Boxer practising technique" loading="lazy"></div><div class="prog-b"><div class="lvl"><i class="on"></i><i></i><i></i> Beginner</div><h3>Fundamentals</h3><p>Stance, footwork and the six basic punches. Start here.</p></div></article>
+        <article class="prog rv"><div class="ph" data-cap="Box HIIT"><img src="https://images.unsplash.com/photo-1591504771094-a1ca4de142d7?auto=format&fit=crop&w=600&q=70" alt="Woman doing a conditioning exercise" loading="lazy"></div><div class="prog-b"><div class="lvl"><i class="on"></i><i class="on"></i><i></i> All levels</div><h3>Box HIIT</h3><p>Bag rounds mixed with strength and cardio intervals.</p></div></article>
+        <article class="prog rv"><div class="ph" data-cap="Sparring"><img src="https://images.unsplash.com/photo-1546711076-85a7923432ab?auto=format&fit=crop&w=600&q=70" alt="Two boxers in the ring" loading="lazy"></div><div class="prog-b"><div class="lvl"><i class="on"></i><i class="on"></i><i class="on"></i> Advanced</div><h3>Technical sparring</h3><p>Controlled sparring with a coach. Invite only after 8 weeks.</p></div></article>
+        <article class="prog rv"><div class="ph" data-cap="Women's"><img src="https://images.unsplash.com/photo-1660212074310-6d7ed176c746?auto=format&fit=crop&w=600&q=70" alt="Boxing glove close-up" loading="lazy"></div><div class="prog-b"><div class="lvl"><i class="on"></i><i class="on"></i><i></i> All levels</div><h3>Women's boxing</h3><p>Women-only classes with a female coach.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="timetable" style="padding-top:0">
+    <div class="wrap">
+      <h2 class="sec rv">Timetable</h2>
+      <p class="lead rv">Pick a day to see classes and spots left. Book in one tap.</p>
+      <div class="daytabs" role="tablist" aria-label="Day" id="daytabs"></div>
+      <div class="filters" role="group" aria-label="Class type" id="filters">
+        <button class="chip" aria-pressed="true" data-f="all">All</button>
+        <button class="chip" aria-pressed="false" data-f="fund">Fundamentals</button>
+        <button class="chip" aria-pressed="false" data-f="hiit">Box HIIT</button>
+        <button class="chip" aria-pressed="false" data-f="spar">Sparring</button>
+        <button class="chip" aria-pressed="false" data-f="women">Women's</button>
+        <button class="chip" aria-pressed="false" data-f="youth">Youth 12–16</button>
+      </div>
+      <div class="classes" id="classes" role="tabpanel"></div>
+    </div>
+  </section>
+
+  <section id="memberships" style="padding-top:0">
+    <div class="wrap">
+      <h2 class="sec rv">Memberships</h2>
+      <p class="lead rv">Billed by direct debit. Pause or cancel with 7 days' notice. Prices in AUD, GST included.</p>
+      <div class="toggle" role="group" aria-label="Billing period">
+        <button aria-pressed="true" data-p="w">Weekly</button>
+        <button aria-pressed="false" data-p="f">Fortnightly<em>save 10%</em></button>
+      </div>
+      <div class="plans">
+        <div class="plan rv"><h3>Casual</h3><div class="price" data-w="30" data-unit="class">$30<small> / class</small></div><ul><li>Any class on the timetable</li><li>Pay as you go</li></ul><p class="muted">Good for trying us out.</p></div>
+        <div class="plan best rv"><span class="badge">Most popular</span><h3>Unlimited</h3><div class="price" data-w="49">$49<small> / week</small></div><ul><li>Unlimited classes</li><li>Free gloves &amp; wraps</li><li>Monthly technique check-in</li></ul><p class="muted">Cancel any time with 7 days' notice.</p></div>
+        <div class="plan rv"><h3>2 a week</h3><div class="price" data-w="36">$36<small> / week</small></div><ul><li>Any 2 classes per week</li><li>Free gloves &amp; wraps</li></ul><p class="muted">Student concession: ask at the desk.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="coaches" style="padding-top:0">
+    <div class="wrap">
+      <h2 class="sec rv">Coaches</h2>
+      <p class="lead rv">Fictional coaches for this demo site.</p>
+      <div class="coaches">
+        <div class="coach rv"><div class="avatar" aria-hidden="true">MR</div><h3>Mia Rossi</h3><p>Head coach. Former amateur state champion. Runs Fundamentals and Sparring.</p></div>
+        <div class="coach rv"><div class="avatar" aria-hidden="true">TK</div><h3>Tom Kerr</h3><p>Strength &amp; conditioning. Builds the Box HIIT programs.</p></div>
+        <div class="coach rv"><div class="avatar" aria-hidden="true">AN</div><h3>Ana Nguyen</h3><p>Women's and Youth classes. Working With Children Check cleared.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trial" id="trial">
+    <div class="ph bgph" data-cap=""><img src="https://images.unsplash.com/photo-1716306886418-f84f6d4c2f3a?auto=format&fit=crop&w=1600&q=60" alt="" loading="lazy"></div>
+    <div class="wrap">
+      <div>
+        <h2 class="sec">Your first class is free</h2>
+        <p>Arrive 10 minutes early with water and a towel. We'll wrap your hands and teach you the basics before class starts.</p>
+      </div>
+      <form id="trialForm" novalidate>
+        <div class="prog-bar" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+        <div class="stepname" id="stepName">Step 1 of 3 · Choose a class</div>
+        <div class="fs" data-s="1">
+          <div class="pick" id="pickClass">
+            <button type="button" data-v="Fundamentals" aria-pressed="true">Fundamentals<small>Best for beginners</small></button>
+            <button type="button" data-v="Box HIIT" aria-pressed="false">Box HIIT<small>Sweat and bag work</small></button>
+            <button type="button" data-v="Women's" aria-pressed="false">Women's<small>Women only</small></button>
+            <button type="button" data-v="Youth 12–16" aria-pressed="false">Youth 12–16<small>Parent signs up</small></button>
+          </div>
+        </div>
+        <div class="fs" data-s="2" hidden>
+          <div class="pick" id="pickSlot"></div>
+        </div>
+        <div class="fs" data-s="3" hidden>
+          <label class="f" for="t-name">Name<input id="t-name" autocomplete="name" placeholder="Alex Chen"></label>
+          <label class="f" for="t-phone">Mobile<input id="t-phone" type="tel" inputmode="tel" placeholder="04xx xxx xxx"></label>
+        </div>
+        <div class="err" id="tErr" role="alert"></div>
+        <div class="fnav"><button type="button" class="btn outline" id="back" hidden>Back</button><button type="submit" class="btn" id="next" style="margin-left:auto">Next</button></div>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap find">
+      <div class="rv"><h3>Address</h3><p>Unit 4, 88 Ring Lane<br>South Melbourne VIC 3205</p></div>
+      <div class="rv"><h3>Getting here</h3><p>Tram 1 or 12. Bike racks out front. Showers and lockers inside.</p></div>
+      <div class="rv"><h3>Contact</h3><p>0491 570 157<br>train@southpaw.example</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Southpaw Social · Demo site · Photos: Unsplash</span><span>Design &amp; build: Lais Shamukh</span></div>
+</footer>
+
+<script>
+(function(){
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function guard(root){(root||document).querySelectorAll('.ph img').forEach(function(img){
+  function bad(){img.parentElement.classList.add('noimg')}
+  if(img.complete&&img.naturalWidth===0&&img.getAttribute('src'))bad();
+  img.addEventListener('error',bad);img.addEventListener('load',function(){img.parentElement.classList.remove('noimg')});
+});}
+
+var burger=document.getElementById('burger'),links=document.getElementById('links');
+burger.onclick=function(){var o=links.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+links.addEventListener('click',function(e){if(e.target.tagName==='A'){links.classList.remove('open');burger.setAttribute('aria-expanded',false)}});
+
+/* marquee duplicate */
+var mq=document.getElementById('marq');mq.innerHTML+=mq.innerHTML;
+guard();
+
+/* round timer */
+var cfg={w:180,r:60,n:3},state={phase:'ready',round:1,left:180,run:false},tick=null,ac=null;
+var C=678.6,arc=document.getElementById('arc'),clock=document.getElementById('clock');
+function bell(times){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  for(var i=0;i<times;i++){var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+i*0.35;
+  o.type='triangle';o.frequency.value=880;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.4,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+0.6);
+  o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+0.65)}}catch(e){}}
+function mmss(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function draw(){
+  var total=state.phase==='rest'?cfg.r:cfg.w;
+  document.getElementById('time').textContent=mmss(state.left);
+  document.getElementById('phase').textContent=state.phase==='ready'?'Ready':state.phase==='work'?'Fight':state.phase==='rest'?'Rest':'Done';
+  document.getElementById('round').textContent=state.phase==='done'?'Great work':'Round '+state.round+' of '+cfg.n;
+  arc.style.strokeDashoffset=C*(1-state.left/total);
+  arc.style.stroke=state.phase==='rest'?'#5fae74':'#c4271c';
+  clock.className='clock '+state.phase;
+}
+function reset(){clearInterval(tick);state={phase:'ready',round:1,left:cfg.w,run:false};document.getElementById('tStart').textContent='Start';draw()}
+function step(){
+  state.left--;
+  if(state.left<=0){
+    if(state.phase==='work'){
+      if(state.round>=cfg.n){state.phase='done';state.left=0;clearInterval(tick);state.run=false;document.getElementById('tStart').textContent='Start';bell(3);draw();return}
+      state.phase='rest';state.left=cfg.r;bell(1);
+    }else{state.phase='work';state.round++;state.left=cfg.w;bell(2)}
+  }
+  draw();
+}
+document.getElementById('tStart').onclick=function(){
+  if(state.phase==='done')reset();
+  if(state.run){clearInterval(tick);state.run=false;this.textContent='Resume';return}
+  if(state.phase==='ready'){state.phase='work';bell(2)}
+  state.run=true;this.textContent='Pause';tick=setInterval(step,1000);draw();
+};
+document.getElementById('tReset').onclick=reset;
+document.getElementById('tset').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+  cfg={w:+b.dataset.w,r:+b.dataset.r,n:+b.dataset.n};reset()});
+reset();
+
+/* timetable */
+var T={fund:'Fundamentals',hiit:'Box HIIT',spar:'Technical sparring',women:"Women's boxing",youth:'Youth 12–16'};
+var CO={fund:'Mia',hiit:'Tom',spar:'Mia',women:'Ana',youth:'Ana'};
+var S={1:[['5:45 am','hiit'],['7:00 am','fund'],['4:30 pm','youth'],['6:00 pm','fund'],['7:15 pm','hiit']],
+ 2:[['5:45 am','fund'],['7:00 am','hiit'],['9:00 am','women'],['6:00 pm','hiit'],['7:15 pm','spar']],
+ 3:[['5:45 am','hiit'],['7:00 am','fund'],['4:30 pm','youth'],['6:00 pm','fund'],['7:15 pm','women']],
+ 4:[['5:45 am','fund'],['7:00 am','hiit'],['9:00 am','women'],['6:00 pm','hiit'],['7:15 pm','spar']],
+ 5:[['5:45 am','hiit'],['7:00 am','fund'],['6:00 pm','fund']],
+ 6:[['7:00 am','hiit'],['9:00 am','fund'],['10:15 am','spar']],
+ 0:[['9:00 am','hiit'],['10:15 am','fund']]};
+var DN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],order=[1,2,3,4,5,6,0];
+var today=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Melbourne',weekday:'short'}).format(new Date()));
+var curDay=today<0?1:today,curF='all',dt=document.getElementById('daytabs');
+order.forEach(function(d){var b=document.createElement('button');b.setAttribute('role','tab');b.setAttribute('aria-selected',d===curDay);b.dataset.d=d;b.innerHTML='<small>'+(d===today?'Today':'')+'</small>'+DN[d];dt.appendChild(b)});
+dt.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;curDay=+b.dataset.d;dt.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-selected',x===b)});drawClasses()});
+document.getElementById('filters').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;curF=b.dataset.f;this.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===b)});drawClasses()});
+function spots(d,i){return (d*7+i*5+3)%15}
+function drawClasses(){
+  var rows=(S[curDay]||[]).map(function(c,i){return {t:c[0],k:c[1],left:spots(curDay,i)}}).filter(function(c){return curF==='all'||c.k===curF});
+  var box=document.getElementById('classes');
+  if(!rows.length){box.innerHTML='<div class="none">No '+(curF==='all'?'':T[curF]+' ')+'classes on '+DN[curDay]+'. Try another day.</div>';return}
+  box.innerHTML=rows.map(function(c,i){var full=c.left===0,pct=Math.round((14-Math.min(c.left,14))/14*100);
+    return '<div class="cls '+c.k+'" style="animation-delay:'+(i*60)+'ms"><div class="tm">'+c.t.replace(' am','').replace(' pm','')+'<small style="font-family:var(--body);font-size:12px;display:block">'+(c.t.indexOf('am')>0?'AM':'PM')+'</small></div><div><b>'+T[c.k]+'</b><small>Coach '+CO[c.k]+' · 45 min</small></div><div class="spots"><small>'+(full?'Class full':c.left+' of 14 spots left')+'</small><div class="meter"><i class="'+(c.left<4?'low':'')+'" style="width:'+pct+'%"></i></div></div><button class="btn" '+(full?'disabled':'')+' data-k="'+c.k+'" data-t="'+DN[curDay]+' '+c.t+'">'+(full?'Waitlist':'Book')+'</button></div>'}).join('');
+}
+drawClasses();
+document.getElementById('classes').addEventListener('click',function(e){var b=e.target.closest('button[data-k]');if(!b||b.disabled)return;
+  var v={fund:'Fundamentals',hiit:'Box HIIT',women:"Women's",youth:'Youth 12–16',spar:'Fundamentals'}[b.dataset.k];
+  pickBtn('pickClass',v);preSlot=b.dataset.k==='spar'?null:b.dataset.t;goStep(2);document.getElementById('trial').scrollIntoView({behavior:reduce?'auto':'smooth'})});
+
+/* memberships toggle */
+document.querySelector('.toggle').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var f=b.dataset.p==='f';
+  document.querySelectorAll('.price').forEach(function(p){var w=+p.dataset.w;if(p.dataset.unit)return;
+    p.classList.remove('flip');void p.offsetWidth;p.classList.add('flip');
+    setTimeout(function(){p.innerHTML=f?'$'+Math.round(w*2*0.9)+'<small> / fortnight</small>':'$'+w+'<small> / week</small>'},160)})});
+
+/* trial multi-step */
+var step=1,choice={cls:'Fundamentals',slot:null},preSlot=null;
+function pickBtn(id,v){document.getElementById(id).querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.v===v)});if(id==='pickClass')choice.cls=v}
+document.getElementById('pickClass').addEventListener('click',function(e){var b=e.target.closest('button');if(b)pickBtn('pickClass',b.dataset.v)});
+function slotsFor(cls){var key={'Fundamentals':'fund','Box HIIT':'hiit',"Women's":'women','Youth 12–16':'youth'}[cls],out=[];
+  order.forEach(function(d){(S[d]||[]).forEach(function(c,i){if(c[1]===key&&spots(d,i)>0)out.push(DN[d]+' '+c[0])})});return out.slice(0,8)}
+function drawSlots(){var ps=document.getElementById('pickSlot'),list=slotsFor(choice.cls);
+  if(preSlot&&list.indexOf(preSlot)<0)list.unshift(preSlot);
+  choice.slot=preSlot&&list.indexOf(preSlot)>=0?preSlot:null;
+  ps.innerHTML=list.map(function(s){return '<button type="button" data-v="'+s+'" aria-pressed="'+(s===choice.slot)+'">'+s.split(' ')[0]+'<small>'+s.split(' ').slice(1).join(' ')+'</small></button>'}).join('');preSlot=null}
+document.getElementById('pickSlot').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;choice.slot=b.dataset.v;this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)})});
+var names={1:'Choose a class',2:'Choose a time',3:'Your details'};
+function goStep(n){step=n;document.querySelectorAll('.fs').forEach(function(f){f.hidden=+f.dataset.s!==n});
+  document.querySelectorAll('.prog-bar i').forEach(function(i,k){i.classList.toggle('on',k<n)});
+  document.getElementById('stepName').textContent='Step '+n+' of 3 · '+names[n];
+  document.getElementById('back').hidden=n===1;document.getElementById('next').textContent=n===3?'Claim free class':'Next';
+  document.getElementById('tErr').textContent='';if(n===2)drawSlots()}
+document.getElementById('back').onclick=function(){goStep(step-1)};
+document.getElementById('trialForm').addEventListener('submit',function(e){e.preventDefault();var err=document.getElementById('tErr');
+  if(step===1)return goStep(2);
+  if(step===2){if(!choice.slot){err.textContent='Pick a time.';return}return goStep(3)}
+  var name=document.getElementById('t-name').value.trim(),ph=document.getElementById('t-phone').value.replace(/\s/g,'');
+  if(!name){err.textContent='Add your name.';return}
+  if(!/^04\d{8}$/.test(ph)){err.textContent='Enter an Australian mobile, e.g. 0412 345 678.';return}
+  this.innerHTML='<div class="done"><b>You\'re in, '+name.replace(/[<>&"]/g,'')+'!</b>Free '+choice.cls+' class · '+choice.slot+'.<br>This is a demo, so nothing was sent.</div>'});
+
+/* reveal */
+if('IntersectionObserver' in window&&!reduce){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.remove('pre');io.unobserve(en.target)}})},{threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el,i){if(el.getBoundingClientRect().top>innerHeight){el.classList.add('pre');el.style.transitionDelay=(i%4)*80+'ms';io.observe(el)}});
+}
+})();
+</script>
+</body>
+</html>

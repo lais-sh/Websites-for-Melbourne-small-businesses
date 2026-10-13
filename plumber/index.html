@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Kestrel Plumbing &amp; Gas — demo website by Lais Shamukh Web Design.">
+<meta property="og:title" content="Kestrel Plumbing &amp; Gas — demo website">
+<meta property="og:description" content="Demo website by Lais Shamukh Web Design, Melbourne.">
+<meta property="og:image" content="https://lais-sh.github.io/Websites-for-Melbourne-small-businesses/assets/og-plumber.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<title>Kestrel Plumbing &amp; Gas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: trade site — photo hero with a live price estimator, counters strip, photo service cards, draggable project strip, suburb checker, animated process line, quote form with photo upload. Single committed look. */
+:root{
+  --slate:#18222e; --slate-2:#243241; --bg:#f4f6f8; --card:#ffffff; --ink:#18222e; --muted:#566373; --line:#d8dee5;
+  --hivis:#f3d01c; --hivis-ink:#1b1600; --good:#1f8a4c; --warn:#b4540b;
+  --display:"Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --body:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:100%}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--hivis);outline-offset:2px}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:20px}
+.demo{background:#000;color:#bbb;font-size:13px;text-align:center;padding:6px 16px}
+.ph{position:relative;overflow:hidden;background:linear-gradient(135deg,#2f4155,#18222e)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph.noimg img{visibility:hidden}
+.ph.noimg::after{content:attr(data-cap);position:absolute;inset:0;display:grid;place-items:center;color:#9fb0c2;font-size:13px;text-align:center;padding:10px}
+
+.topbar{background:var(--hivis);color:var(--hivis-ink);font-weight:600;font-size:15px}
+.topbar .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:7px}
+.live{display:inline-flex;align-items:center;gap:8px}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:#0b7a3b;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--slate);color:#fff;transition:box-shadow .3s}
+header.scrolled{box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:12px}
+.logo{font-family:var(--display);font-weight:800;font-size:25px;letter-spacing:.02em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{display:inline-grid;place-items:center;width:34px;height:34px;background:var(--hivis);color:var(--hivis-ink);font-style:normal;border-radius:6px}
+.links{display:flex;gap:24px;list-style:none;margin:0;padding:0}
+.links a{text-decoration:none;color:#c7d0da;font-weight:500}
+.links a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--hivis);color:var(--hivis-ink);font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:19px;padding:12px 22px;border-radius:6px;border:0;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+.btn.dark{background:var(--slate);color:#fff}
+.burger{display:none;width:44px;height:44px;border:0;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:11px;right:11px;height:2px;background:#fff;transition:transform .25s,opacity .25s}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:27px}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;color:#fff;overflow:hidden;background:var(--slate)}
+.hero-bg{position:absolute;inset:0}
+.hero-bg .ph{position:absolute;inset:-40px 0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,22,30,.94) 0%,rgba(15,22,30,.8) 45%,rgba(15,22,30,.45) 100%)}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:44px;align-items:center;padding-block:56px 64px}
+.kicker{font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#8a6f00;font-size:15px}
+.hero .kicker{color:var(--hivis)}
+.hero h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(44px,6.6vw,80px);line-height:.94;margin:8px 0 18px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--hivis);display:inline-block}
+.rotor{display:inline-block;min-width:4ch;color:var(--hivis);border-bottom:4px solid var(--hivis);transition:opacity .3s,transform .3s}
+.rotor.out{opacity:0;transform:translateY(-12px)}
+.hero p{color:#c7d0da;font-size:19px;max-width:46ch;margin:0 0 24px}
+.ticks{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:8px}
+.ticks li{display:flex;gap:10px;align-items:center}
+.ticks li::before{content:"";width:18px;height:18px;flex:none;border-radius:4px;background:var(--hivis) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4 9.5l3 3 7-7' stroke='%231b1600' stroke-width='2.4' fill='none'/%3E%3C/svg%3E") center/14px no-repeat}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+
+/* estimator */
+.est{background:var(--card);color:var(--ink);border-radius:12px;padding:22px;box-shadow:0 24px 50px rgba(0,0,0,.35);display:grid;gap:14px}
+.est h2{font-family:var(--display);text-transform:uppercase;font-size:28px;margin:0;line-height:1}
+.est .sub{margin:-8px 0 0;color:var(--muted);font-size:15px}
+.lbl{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;display:block}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:6px;padding:7px 11px;cursor:pointer;font-weight:600;font-size:15px;color:var(--ink);transition:all .15s}
+.opt[aria-pressed="true"]{background:var(--slate);color:#fff;border-color:var(--slate)}
+.result{background:var(--bg);border-radius:8px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.result small{display:block;color:var(--muted);font-size:13px}
+.range{font-family:var(--display);font-weight:800;font-size:36px;line-height:1;font-variant-numeric:tabular-nums}
+.eta{font-size:14px;font-weight:600;color:var(--good)}
+
+/* counters */
+.strip{background:var(--hivis);color:var(--hivis-ink)}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-block:22px;text-align:center}
+.strip b{font-family:var(--display);font-weight:800;font-size:40px;line-height:1;display:block;font-variant-numeric:tabular-nums}
+.strip span{font-size:14px;font-weight:600}
+
+section{padding-block:72px}
+h2.sec{font-family:var(--display);text-transform:uppercase;font-size:clamp(36px,4.8vw,52px);line-height:1;margin:6px 0 12px;text-wrap:balance}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 32px}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.svc{position:relative;border-radius:12px;overflow:hidden;min-height:300px;color:#fff;display:flex;align-items:flex-end;isolation:isolate;cursor:default}
+.svc .ph{position:absolute;inset:0;z-index:-2}
+.svc .ph img{transition:transform .6s}
+.svc::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(15,22,30,.05) 20%,rgba(15,22,30,.92) 100%);transition:background .35s}
+.svc:hover .ph img,.svc:focus-within .ph img{transform:scale(1.08)}
+.svc:hover::before,.svc:focus-within::before{background:linear-gradient(180deg,rgba(15,22,30,.55) 0%,rgba(15,22,30,.95) 100%)}
+.svc-b{padding:20px;width:100%}
+.svc h3{font-family:var(--display);text-transform:uppercase;font-size:28px;margin:0;line-height:1}
+.from{display:inline-block;background:var(--hivis);color:var(--hivis-ink);font-weight:700;font-size:14px;padding:2px 8px;border-radius:4px;margin-top:8px}
+.more{max-height:0;overflow:hidden;transition:max-height .45s ease,opacity .35s;opacity:0;color:#d5dde6;font-size:15px}
+.svc:hover .more,.svc:focus-within .more{max-height:120px;opacity:1}
+.more p{margin:10px 0 0}
+
+/* projects strip */
+.proj-h{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.arrows{display:flex;gap:8px}
+.arrows button{width:46px;height:46px;border-radius:50%;border:2px solid var(--slate);background:transparent;cursor:pointer;font-size:20px;color:var(--ink)}
+.arrows button:hover{background:var(--slate);color:#fff}
+.strip-x{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 16px;cursor:grab;scrollbar-width:none;max-width:1160px;margin:0 auto}
+.strip-x::-webkit-scrollbar{display:none}
+.strip-x.drag{cursor:grabbing;scroll-snap-type:none}
+.proj{flex:0 0 min(360px,80%);scroll-snap-align:start;margin:0}
+.proj .ph{aspect-ratio:4/5;border-radius:12px;user-select:none}
+.proj .ph img{pointer-events:none}
+.proj figcaption{padding-top:10px}
+.proj b{display:block;font-family:var(--display);text-transform:uppercase;font-size:22px}
+.proj span{color:var(--muted);font-size:15px}
+.stocknote{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
+
+/* areas */
+.dark{background:var(--slate);color:#fff}
+.dark .lead{color:#c7d0da}
+.dark .kicker{color:var(--hivis)}
+.areas-g{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.checker{display:flex;gap:8px;flex-wrap:wrap}
+.checker input{flex:1;min-width:0;font:inherit;padding:13px 14px;border-radius:6px;border:0;font-size:18px}
+.res{margin-top:14px;min-height:56px;font-size:17px}
+.res .yes,.res .no{display:inline-flex;gap:10px;align-items:center;padding:12px 16px;border-radius:8px;animation:pop .35s both}
+.res .yes{background:rgba(31,138,76,.2);color:#9be3b8}
+.res .no{background:rgba(180,84,11,.22);color:#ffc89a}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+.areas{display:flex;flex-wrap:wrap;gap:8px}
+.areas button{background:var(--slate-2);border:1px solid #3a4a5c;color:#fff;padding:7px 14px;border-radius:999px;font-size:15px;cursor:pointer;transition:all .2s}
+.areas button:hover,.areas button.hit{background:var(--hivis);color:var(--hivis-ink);border-color:var(--hivis)}
+
+/* steps */
+.steps{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding-top:30px}
+.steps::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--line)}
+.bar{position:absolute;top:0;left:0;height:4px;width:0;background:var(--hivis);transition:width 1.6s ease}
+.steps.go .bar{width:100%}
+.step{position:relative}
+.step::before{content:attr(data-n);position:absolute;top:-46px;left:0;width:36px;height:36px;border-radius:50%;background:var(--slate);color:var(--hivis);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:20px}
+.step h3{font-family:var(--display);text-transform:uppercase;font-size:23px;margin:10px 0 6px}
+.step p{margin:0;color:var(--muted);font-size:16px}
+
+/* reviews */
+.revs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rev{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;margin:0}
+.stars{color:#c9a400;letter-spacing:2px}
+.rev blockquote{margin:10px 0 12px}
+.rev figcaption{font-size:14px;color:var(--muted)}
+.sample{display:inline-block;font-size:12px;font-weight:600;background:#ffeeb0;color:#5a4800;padding:3px 8px;border-radius:4px;margin-bottom:18px}
+
+/* quote form */
+.q-g{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
+.q-photo{border-radius:12px;aspect-ratio:4/3}
+form.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;display:grid;gap:14px}
+label.f{font-size:14px;font-weight:600;display:grid;gap:5px}
+input,select,textarea{font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);width:100%}
+textarea{min-height:90px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.drop{border:2px dashed var(--line);border-radius:8px;padding:16px;text-align:center;color:var(--muted);cursor:pointer;transition:border-color .2s,background .2s;font-size:15px}
+.drop.over{border-color:var(--slate);background:var(--bg)}
+.drop input{display:none}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:center}
+.thumbs img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+.err{color:#b3261e;font-size:14px;min-height:1em}
+.ok{background:#e8f5e6;border-radius:8px;padding:14px;animation:pop .35s both}
+
+/* faq */
+.faq{max-width:820px}
+.qa{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.qa button{width:100%;text-align:left;background:none;border:0;padding:16px 20px;font-weight:600;font-size:17px;cursor:pointer;display:flex;justify-content:space-between;gap:12px;color:var(--ink)}
+.qa button::after{content:"+";font-size:22px;line-height:1;transition:transform .3s}
+.qa button[aria-expanded="true"]::after{transform:rotate(45deg)}
+.qa .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.qa .a>div{overflow:hidden}
+.qa .a p{margin:0;padding:0 20px 16px;color:var(--muted)}
+.qa.open .a{grid-template-rows:1fr}
+
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:35;display:none;box-shadow:0 10px 24px rgba(0,0,0,.3);border-radius:999px}
+footer{background:#0f161e;color:#9aa7b5;font-size:14px;padding-block:32px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.rv{transition:opacity .7s ease,transform .7s ease}
+.rv.pre{opacity:0;transform:translateY(26px)}
+
+@media (max-width:900px){
+  .hero .wrap,.areas-g,.q-g{grid-template-columns:1fr}
+  .services,.revs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:1fr 1fr;row-gap:64px}
+  .strip .wrap{grid-template-columns:1fr 1fr}
+  .burger{display:block}
+  .links{position:fixed;top:0;left:0;right:0;flex-direction:column;gap:0;background:var(--slate);padding:calc(74px + env(safe-area-inset-top,0px)) 20px 20px;transform:translateY(-105%);transition:transform .35s;z-index:-1;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+  .links.open{transform:none}
+  .links a{display:block;padding:14px 0;font-size:20px;border-bottom:1px solid #2c3b4b}
+  .nav>.btn{display:none}
+  .fab{display:inline-flex}
+}
+@media (max-width:560px){.services,.revs,.two{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv.pre{opacity:1;transform:none}.more{max-height:none;opacity:1}}
+</style>
+</head>
+<body>
+<div class="demo"><a href="../" style="color:inherit;font-weight:600">← Lais Shamukh Web Design</a> · Demo website · Kestrel Plumbing &amp; Gas is a fictional business</div>
+<div class="topbar"><div class="wrap"><span class="live" id="avail">Plumbers available today</span><span>24/7 emergencies: 0491 570 156</span></div></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#top"><i aria-hidden="true">K</i>Kestrel Plumbing</a>
+    <ul class="links" id="links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#areas">Areas</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn" href="#quote">Free quote</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="links"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="hero-bg"><div class="ph" id="par" data-cap=""><img src="https://images.unsplash.com/photo-1676210134188-4c05dd172f89?auto=format&fit=crop&w=1800&q=70" alt=""></div></div>
+    <div class="wrap">
+      <div>
+        <div class="kicker">Licensed plumber &amp; gasfitter · Bayside</div>
+        <h1>Burst pipe? <br>Blocked <span class="rotor" id="rotor">drain</span>?<br><em>We'll be there today.</em></h1>
+        <p>Local, family-run plumbing for homes and small businesses across Melbourne's south-east. Fixed price before we start, and we clean up after.</p>
+        <ul class="ticks">
+          <li>No call-out fee inside our service area</li>
+          <li>Fully licensed &amp; insured · Reg. no. 00000 (demo)</li>
+          <li>12-month workmanship guarantee</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn" href="#quote">Get a free quote</a>
+          <a class="btn ghost" href="#services">Our services</a>
+        </div>
+      </div>
+      <div class="est" id="est">
+        <h2>Price estimator</h2>
+        <p class="sub">Get a rough price in seconds. Final price is fixed on site.</p>
+        <div><span class="lbl">What's the job?</span><div class="opts" data-k="job">
+          <button class="opt" aria-pressed="true" data-v="drain">Blocked drain</button>
+          <button class="opt" aria-pressed="false" data-v="leak">Leak / tap</button>
+          <button class="opt" aria-pressed="false" data-v="hw">Hot water</button>
+          <button class="opt" aria-pressed="false" data-v="gas">Gas fitting</button>
+          <button class="opt" aria-pressed="false" data-v="toilet">Toilet</button>
+        </div></div>
+        <div><span class="lbl">When?</span><div class="opts" data-k="when">
+          <button class="opt" aria-pressed="true" data-v="std">This week</button>
+          <button class="opt" aria-pressed="false" data-v="today">Today</button>
+          <button class="opt" aria-pressed="false" data-v="after">After hours</button>
+        </div></div>
+        <div><span class="lbl">Property</span><div class="opts" data-k="prop">
+          <button class="opt" aria-pressed="true" data-v="house">House</button>
+          <button class="opt" aria-pressed="false" data-v="unit">Apartment</button>
+          <button class="opt" aria-pressed="false" data-v="biz">Business</button>
+        </div></div>
+        <div class="result">
+          <div><small>Estimated price (incl. GST)</small><div class="range" id="range">$189 – $290</div><div class="eta" id="eta">Next available: tomorrow</div></div>
+          <a class="btn dark" href="#quote" id="useEst">Book this job</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="wrap">
+      <div><b data-count="3800" data-suf="+">0</b><span>jobs completed</span></div>
+      <div><b data-count="47" data-suf=" min">0</b><span>average emergency arrival</span></div>
+      <div><b data-count="12" data-suf=" yrs">0</b><span>in business</span></div>
+      <div><b data-count="14">0</b><span>suburbs, no travel fee</span></div>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="kicker rv">What we do</div>
+      <h2 class="sec rv">Plumbing &amp; gas services</h2>
+      <p class="lead rv">Hover or tap a service to see what's included. Prices include GST.</p>
+      <div class="services">
+        <article class="svc rv" tabindex="0"><div class="ph" data-cap="Blocked drains"><img src="https://images.unsplash.com/photo-1521207418485-99c705420785?auto=format&fit=crop&w=800&q=70" alt="Kitchen sink with running water" loading="lazy"></div><div class="svc-b"><h3>Blocked drains</h3><span class="from">From $189</span><div class="more"><p>CCTV camera inspection and high-pressure jetting for tree roots, grease and wipes.</p></div></div></article>
+        <article class="svc rv" tabindex="0"><div class="ph" data-cap="Hot water"><img src="https://images.unsplash.com/photo-1676210134190-3f2c0d5cf58d?auto=format&fit=crop&w=800&q=70" alt="Plumber working on a water heater" loading="lazy"></div><div class="svc-b"><h3>Hot water systems</h3><span class="from">From $149 call-out</span><div class="more"><p>Repairs and replacement of gas, electric and heat-pump units. Same-day install available.</p></div></div></article>
+        <article class="svc rv" tabindex="0"><div class="ph" data-cap="Leaks"><img src="https://images.unsplash.com/photo-1676210133055-eab6ef033ce3?auto=format&fit=crop&w=800&q=70" alt="Plumber fixing pipes under a sink" loading="lazy"></div><div class="svc-b"><h3>Leaks &amp; burst pipes</h3><span class="from">From $129</span><div class="more"><p>Leak detection, tap and pipe repairs, and burst pipe make-safe 24/7.</p></div></div></article>
+        <article class="svc rv" tabindex="0"><div class="ph" data-cap="Gas fitting"><img src="https://images.unsplash.com/photo-1650551182991-b07558247564?auto=format&fit=crop&w=800&q=70" alt="Pipes and valves" loading="lazy"></div><div class="svc-b"><h3>Gas fitting</h3><span class="from">From $165</span><div class="more"><p>Cooktops, heaters, gas leak checks and compliance certificates.</p></div></div></article>
+        <article class="svc rv" tabindex="0"><div class="ph" data-cap="Bathrooms"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=70" alt="Modern bathroom with shower and vanity" loading="lazy"></div><div class="svc-b"><h3>Bathroom renovations</h3><span class="from">Quote on site</span><div class="more"><p>Rough-in and fit-off for renovations, working with your builder or tiler.</p></div></div></article>
+        <article class="svc rv" tabindex="0"><div class="ph" data-cap="Toilets"><img src="https://images.unsplash.com/photo-1676210134050-6f12c6898395?auto=format&fit=crop&w=800&q=70" alt="Plumber repairing a toilet" loading="lazy"></div><div class="svc-b"><h3>Toilets &amp; cisterns</h3><span class="from">From $139</span><div class="more"><p>Running cisterns, leaks at the base, full toilet replacement and water-saving upgrades.</p></div></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" style="padding-top:0">
+    <div class="wrap proj-h">
+      <div><div class="kicker">Recent work</div><h2 class="sec">Projects</h2><p class="lead" style="margin-bottom:20px">Drag or use the arrows to browse.</p></div>
+      <div class="arrows"><button id="pPrev" aria-label="Previous projects">←</button><button id="pNext" aria-label="Next projects">→</button></div>
+    </div>
+    <div class="strip-x" id="stripX">
+      <figure class="proj"><div class="ph" data-cap="Bathroom"><img src="https://images.unsplash.com/photo-1638799869566-b17fa794c4de?auto=format&fit=crop&w=700&q=70" alt="Bathroom with freestanding bath and walk-in shower" loading="lazy"></div><figcaption><b>Family bathroom</b><span>Full renovation · Brighton</span></figcaption></figure>
+      <figure class="proj"><div class="ph" data-cap="Repair"><img src="https://images.unsplash.com/photo-1749532125405-70950966b0e5?auto=format&fit=crop&w=700&q=70" alt="Plumber repairing bathroom plumbing" loading="lazy"></div><figcaption><b>Shower leak repair</b><span>Same-day fix · Elwood</span></figcaption></figure>
+      <figure class="proj"><div class="ph" data-cap="Ensuite"><img src="https://images.unsplash.com/photo-1696987007764-7f8b85dd3033?auto=format&fit=crop&w=700&q=70" alt="Bathroom with two sinks and shower" loading="lazy"></div><figcaption><b>Double vanity ensuite</b><span>Rough-in &amp; fit-off · Hampton</span></figcaption></figure>
+      <figure class="proj"><div class="ph" data-cap="Vanity"><img src="https://images.unsplash.com/photo-1629079447777-1e605162dc8d?auto=format&fit=crop&w=700&q=70" alt="White sink with mirror" loading="lazy"></div><figcaption><b>Vanity swap</b><span>Half-day job · Prahran</span></figcaption></figure>
+      <figure class="proj"><div class="ph" data-cap="Bath"><img src="https://images.unsplash.com/photo-1733426107854-ee00a25d72a7?auto=format&fit=crop&w=700&q=70" alt="Bathroom with tub and large window" loading="lazy"></div><figcaption><b>Heritage home bathroom</b><span>New pipework · Albert Park</span></figcaption></figure>
+      <figure class="proj"><div class="ph" data-cap="Laundry"><img src="https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?auto=format&fit=crop&w=700&q=70" alt="Bathroom with toilet, sink and bathtub" loading="lazy"></div><figcaption><b>Apartment bathroom</b><span>Leak &amp; toilet upgrade · St Kilda</span></figcaption></figure>
+    </div>
+    <p class="stocknote">Stock photos from Unsplash used for this demo.</p>
+  </section>
+
+  <section class="dark" id="areas">
+    <div class="wrap areas-g">
+      <div class="rv">
+        <div class="kicker">Service areas</div>
+        <h2 class="sec">Do we cover your suburb?</h2>
+        <p class="lead">Type your suburb or postcode. No travel fee inside our area.</p>
+        <form class="checker" id="checker" novalidate>
+          <label for="sub" class="sr" style="position:absolute;left:-9999px">Suburb or postcode</label>
+          <input id="sub" list="subs" placeholder="e.g. Elwood or 3184" autocomplete="off">
+          <button class="btn" type="submit">Check</button>
+        </form>
+        <datalist id="subs"></datalist>
+        <div class="res" id="res" role="status"></div>
+      </div>
+      <div class="areas rv" id="areaList"></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="kicker rv">How it works</div>
+      <h2 class="sec rv" style="margin-bottom:60px">From call to fixed in four steps</h2>
+      <div class="steps" id="steps"><div class="bar"></div>
+        <div class="step" data-n="1"><h3>Call or book online</h3><p>Tell us what's wrong. Send a photo if you can.</p></div>
+        <div class="step" data-n="2"><h3>We arrive on time</h3><p>You get an SMS when the plumber is 30 minutes away.</p></div>
+        <div class="step" data-n="3"><h3>Fixed price first</h3><p>We explain the problem and the price before we start.</p></div>
+        <div class="step" data-n="4"><h3>Fix &amp; clean up</h3><p>Job done, area cleaned, invoice by email. Pay by card or bank transfer.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="kicker rv">Reviews</div>
+      <h2 class="sec rv">What customers say</h2>
+      <span class="sample">Sample testimonials · demo content</span>
+      <div class="revs">
+        <figure class="rev rv"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>Hot water died on a Sunday. They came the same afternoon and had a new unit in by Monday morning.</blockquote><figcaption>Sample customer · Elwood</figcaption></figure>
+        <figure class="rev rv"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>Clear price before starting, and they put shoe covers on without being asked.</blockquote><figcaption>Sample customer · Brighton</figcaption></figure>
+        <figure class="rev rv"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>Showed me the camera footage of the tree roots in our drain. Very easy to deal with.</blockquote><figcaption>Sample customer · Bentleigh</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="quote" style="background:#e9edf1">
+    <div class="wrap q-g">
+      <div class="rv">
+        <div class="kicker">Free quote</div>
+        <h2 class="sec">Tell us about the job</h2>
+        <p class="lead">We reply within 2 business hours. Urgent? We call you back within 30 minutes.</p>
+        <div class="ph q-photo" data-cap="Plumber at work"><img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=900&q=70" alt="Plumbing tools laid out" loading="lazy"></div>
+      </div>
+      <form class="q rv" id="qForm" novalidate>
+        <div class="two">
+          <label class="f" for="q-name">Name<input id="q-name" autocomplete="name" placeholder="Jordan Lee"></label>
+          <label class="f" for="q-phone">Mobile<input id="q-phone" type="tel" inputmode="tel" placeholder="04xx xxx xxx"></label>
+        </div>
+        <div class="two">
+          <label class="f" for="q-suburb">Suburb<input id="q-suburb" placeholder="Brighton"></label>
+          <label class="f" for="q-job">Job type
+            <select id="q-job"><option value="drain">Blocked drain</option><option value="leak">Leak / tap</option><option value="hw">Hot water</option><option value="gas">Gas fitting</option><option value="toilet">Toilet</option><option value="other">Other</option></select>
+          </label>
+        </div>
+        <label class="f" for="q-msg">Describe the problem<textarea id="q-msg" placeholder="Kitchen sink is draining slowly…"></textarea></label>
+        <label class="drop" id="drop" for="q-file">
+          <input id="q-file" type="file" accept="image/*" multiple>
+          <b>Add photos of the problem</b><br>Tap to choose, or drop images here
+          <div class="thumbs" id="thumbs"></div>
+        </label>
+        <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="q-urgent" style="width:auto"> It's urgent (today)</label>
+        <div class="err" id="qErr" role="alert"></div>
+        <button class="btn" type="submit">Send request</button>
+        <div id="qOk" role="status"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap faq">
+      <div class="kicker rv">FAQ</div>
+      <h2 class="sec rv">Common questions</h2>
+      <div class="qa"><button aria-expanded="false">Do you charge a call-out fee?</button><div class="a"><div><p>No separate call-out fee inside our service areas. You pay the fixed price we agree on before starting.</p></div></div></div>
+      <div class="qa"><button aria-expanded="false">Are you licensed and insured?</button><div class="a"><div><p>Yes. All our plumbers are registered in Victoria and we carry public liability insurance. We give you a compliance certificate where the law requires one.</p></div></div></div>
+      <div class="qa"><button aria-expanded="false">How do I pay?</button><div class="a"><div><p>Card on the day, or bank transfer within 7 days of the invoice.</p></div></div></div>
+      <div class="qa"><button aria-expanded="false">Do you work weekends?</button><div class="a"><div><p>Yes. Emergency jobs 24/7. Weekend rates apply on Saturday and Sunday.</p></div></div></div>
+    </div>
+  </section>
+</main>
+
+<a class="btn fab" href="#quote">Get a quote</a>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Kestrel Plumbing &amp; Gas · ABN 00 000 000 000 (demo) · Photos: Unsplash</span>
+    <span>Design &amp; build: Lais Shamukh</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function guard(root){(root||document).querySelectorAll('.ph img').forEach(function(img){
+  function bad(){img.parentElement.classList.add('noimg')}
+  if(img.complete&&img.naturalWidth===0&&img.getAttribute('src'))bad();
+  img.addEventListener('error',bad);img.addEventListener('load',function(){img.parentElement.classList.remove('noimg')});
+});}
+guard();
+
+var hdr=document.getElementById('hdr');
+addEventListener('scroll',function(){hdr.classList.toggle('scrolled',scrollY>10)},{passive:true});
+var burger=document.getElementById('burger'),links=document.getElementById('links');
+burger.onclick=function(){var o=links.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+links.addEventListener('click',function(e){if(e.target.tagName==='A'){links.classList.remove('open');burger.setAttribute('aria-expanded',false)}});
+
+/* parallax */
+var par=document.getElementById('par');
+if(!reduce)addEventListener('scroll',function(){if(scrollY<900)par.style.transform='translateY('+(scrollY*.25)+'px)'},{passive:true});
+
+/* rotating word */
+var words=['drain','toilet','gutter','tap'],wi=0,rotor=document.getElementById('rotor');
+if(!reduce)setInterval(function(){rotor.classList.add('out');setTimeout(function(){wi=(wi+1)%words.length;rotor.textContent=words[wi];rotor.classList.remove('out')},300)},2400);
+
+/* availability (Melbourne time) */
+var hr=+new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Melbourne',hour:'numeric',hour12:false}).format(new Date())%24;
+document.getElementById('avail').textContent=(hr>=7&&hr<17)?'2 plumbers available today':'After-hours team on call now';
+
+/* estimator */
+var P={drain:[189,290],leak:[129,220],hw:[149,450],gas:[165,320],toilet:[139,260]};
+var W={std:1,today:1.15,after:1.6},R={house:1,unit:1.05,biz:1.2};
+var st={job:'drain',when:'std',prop:'house'},rangeEl=document.getElementById('range'),last=[189,290];
+document.querySelectorAll('.opts').forEach(function(g){g.addEventListener('click',function(e){
+  var b=e.target.closest('.opt');if(!b)return;
+  g.querySelectorAll('.opt').forEach(function(o){o.setAttribute('aria-pressed',o===b)});
+  st[g.dataset.k]=b.dataset.v;calc();
+})});
+function round5(n){return Math.round(n/5)*5}
+function calc(){
+  var base=P[st.job],k=W[st.when]*R[st.prop],to=[round5(base[0]*k),round5(base[1]*k)];
+  animate(last,to);last=to;
+  document.getElementById('eta').textContent=st.when==='std'?'Next available: tomorrow':st.when==='today'?'Same-day slot: arrival in 2–4 hours':'Emergency: arrival in about 60 minutes';
+}
+function animate(a,b){if(reduce){rangeEl.textContent='$'+b[0]+' – $'+b[1];return}
+  var t0=null;function s(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/450);
+  rangeEl.textContent='$'+Math.round(a[0]+(b[0]-a[0])*k)+' – $'+Math.round(a[1]+(b[1]-a[1])*k);if(k<1)requestAnimationFrame(s)}requestAnimationFrame(s)}
+document.getElementById('useEst').addEventListener('click',function(){
+  document.getElementById('q-job').value=st.job;document.getElementById('q-urgent').checked=st.when!=='std';
+});
+
+/* counters + reveal + steps */
+function countUp(el){var to=+el.dataset.count,suf=el.dataset.suf||'';if(reduce){el.textContent=to.toLocaleString('en-AU')+suf;return}
+  var t0=null;function s(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1500);el.textContent=Math.round(to*(1-Math.pow(1-k,3))).toLocaleString('en-AU')+suf;if(k<1)requestAnimationFrame(s)}requestAnimationFrame(s)}
+var counted=false,strip=document.querySelector('.strip');
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;
+    if(en.target===strip){strip.querySelectorAll('[data-count]').forEach(countUp)}
+    else if(en.target.id==='steps'){en.target.classList.add('go')}
+    else en.target.classList.remove('pre');
+    io.unobserve(en.target)})},{threshold:.2});
+  io.observe(strip);io.observe(document.getElementById('steps'));
+  if(!reduce)document.querySelectorAll('.rv').forEach(function(el,i){if(el.getBoundingClientRect().top>innerHeight){el.classList.add('pre');el.style.transitionDelay=(i%3)*90+'ms';io.observe(el)}});
+}else{strip.querySelectorAll('[data-count]').forEach(countUp);document.getElementById('steps').classList.add('go')}
+
+/* project strip drag + arrows */
+var sx=document.getElementById('stripX'),down=false,startX=0,startL=0,moved=false;
+sx.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;startX=e.clientX;startL=sx.scrollLeft;sx.classList.add('drag')});
+addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-startX;if(Math.abs(dx)>3)moved=true;sx.scrollLeft=startL-dx});
+addEventListener('pointerup',function(){if(down){down=false;sx.classList.remove('drag')}});
+function by(d){var w=sx.querySelector('.proj').getBoundingClientRect().width+16;sx.scrollBy({left:d*w,behavior:reduce?'auto':'smooth'})}
+document.getElementById('pPrev').onclick=function(){by(-1)};
+document.getElementById('pNext').onclick=function(){by(1)};
+
+/* suburb checker */
+var AREAS=[['St Kilda',3182],['Elwood',3184],['Brighton',3186],['Elsternwick',3185],['Caulfield',3162],['Port Melbourne',3207],['South Melbourne',3205],['Albert Park',3206],['Middle Park',3206],['Prahran',3181],['Windsor',3181],['Bentleigh',3204],['Hampton',3188],['Sandringham',3191]];
+var list=document.getElementById('areaList'),dl=document.getElementById('subs'),res=document.getElementById('res');
+list.innerHTML=AREAS.map(function(a){return '<button type="button" data-s="'+a[0]+'">'+a[0]+' '+a[1]+'</button>'}).join('');
+dl.innerHTML=AREAS.map(function(a){return '<option value="'+a[0]+'">'}).join('');
+function check(q){
+  q=(q||'').trim().toLowerCase();if(!q){res.innerHTML='';return}
+  var hit=AREAS.filter(function(a){return a[0].toLowerCase()===q||String(a[1])===q})[0];
+  list.querySelectorAll('button').forEach(function(b){b.classList.toggle('hit',!!hit&&b.dataset.s===hit[0])});
+  var safe=q.replace(/[<>&"]/g,'');
+  res.innerHTML=hit?'<span class="yes">✓ Yes, we cover '+hit[0]+' '+hit[1]+'. No travel fee.</span>'
+    :'<span class="no">We don\'t list "'+safe+'" yet. Call us and we\'ll check.</span>';
+}
+document.getElementById('checker').addEventListener('submit',function(e){e.preventDefault();check(document.getElementById('sub').value)});
+list.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;document.getElementById('sub').value=b.dataset.s;check(b.dataset.s)});
+
+/* photo upload preview */
+var drop=document.getElementById('drop'),fileIn=document.getElementById('q-file'),thumbs=document.getElementById('thumbs');
+function preview(files){[].slice.call(files,0,6).forEach(function(f){if(!/^image\//.test(f.type))return;var r=new FileReader();r.onload=function(){var i=new Image();i.src=r.result;i.alt=f.name;thumbs.appendChild(i)};r.readAsDataURL(f)})}
+fileIn.addEventListener('change',function(){preview(fileIn.files)});
+['dragenter','dragover'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('over')})});
+['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('over')})});
+drop.addEventListener('drop',function(e){preview(e.dataTransfer.files)});
+
+/* quote submit */
+document.getElementById('qForm').addEventListener('submit',function(e){
+  e.preventDefault();var name=document.getElementById('q-name').value.trim(),phone=document.getElementById('q-phone').value.replace(/\s/g,''),err=document.getElementById('qErr');
+  if(!name){err.textContent='Add your name.';document.getElementById('q-name').focus();return}
+  if(!/^(04\d{8}|0[2378]\d{8})$/.test(phone)){err.textContent='Enter an Australian phone number, e.g. 0412 345 678.';document.getElementById('q-phone').focus();return}
+  err.textContent='';var urgent=document.getElementById('q-urgent').checked,n=thumbs.children.length;
+  document.getElementById('qOk').innerHTML='<div class="ok"><b>Thanks, '+name.replace(/[<>&"]/g,'')+'!</b><br>'+(urgent?'On a live site we would call you within 30 minutes.':'On a live site we would reply within 2 business hours.')+(n?' '+n+' photo'+(n>1?'s':'')+' attached.':'')+'<br>This is a demo, so nothing was sent.</div>';
+});
+
+/* faq accordion */
+document.querySelectorAll('.qa button').forEach(function(b){b.addEventListener('click',function(){
+  var qa=b.parentElement,o=!qa.classList.contains('open');
+  document.querySelectorAll('.qa').forEach(function(x){x.classList.remove('open');x.querySelector('button').setAttribute('aria-expanded',false)});
+  if(o){qa.classList.add('open');b.setAttribute('aria-expanded',true)}
+})});
+})();
+</script>
+</body>
+</html>
